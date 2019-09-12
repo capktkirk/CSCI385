@@ -1,0 +1,10 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+First we load the dataset from quakes into a variable named earthquakes.
+
+```{r}
+earthquakes <- data(quakes)
+print(summary(quakes))
+```
