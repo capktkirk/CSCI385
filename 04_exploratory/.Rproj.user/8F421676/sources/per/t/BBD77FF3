@@ -1,0 +1,28 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1568156363002.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3414957672",
+    "id" : "BBD77FF3",
+    "lastKnownWriteTime" : 1568158488,
+    "last_content_update" : 1568158488685,
+    "path" : "~/Documents/SCHOOL/FA19/385CSCI/04_exploratory/04_exploratory.Rmd",
+    "project_path" : "04_exploratory.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "content_preview_enabled" : "false",
+        "cursorPosition" : "36,0",
+        "scrollLine" : "22",
+        "tempName" : "Untitled2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

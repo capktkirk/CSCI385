@@ -1,0 +1,46 @@
+---
+title: "04 Exploratory Project"
+output: html_document
+author: Kyle Kirk
+date: 09/10/2019
+---
+We are going to look at, and experiment with R. The data set we will be using is *quakes*, and we will load it now. 
+
+```{r}
+data(quakes)
+```
+
+The first thing we want to do it get an overview of what data we will be working with.
+
+**Question 1 : What generally does the data set describe?**
+```{r}
+ls(quakes)
+```
+
+Based off of this, we can see that it is describing the attributes of earthquakes and where they were recorded.
+
+**Question 2 : What are the different variables recorded in the data?**
+
+By interrogating the data with ```typeof(quakes[,#])``` where number is the variable location in the array.
+
+Depth is a meter value of *double* 
+
+lat is latitude value which is a *double*
+
+long is longitude value which is a *integer*
+
+mag is magnitude which is an *double*
+
+stations is the station number, which is an *integer*
+
+**Question 3 : What additional particular domain knowledge might we have to research to get a better appreciation and interpretation of the data?**
+
+The best thing we could do to get a broader understanding is to found out the location of the specific numeric value given the stations. This would allow us to broadly understand how the information is distributed over a global scale.
+
+**Question 4 : How would you summarize the data each of the variables, independently (using descriptive statistics)?**
+
+Depth is the literal depth at which (in a negative value) from the surface. The lat/long is the Latitude/Longitude coordinates on a global metric. We can find the average depth with ```mean(quakes[,1])```which equals -20,64275, or the mode of long/lat or the ```median(quakes[,4])``` which is the median of the magnitude 4.6
+
+***Question 5 : What are some useful questions that we might be able to answer from analyzing data?***
+
+We can find the stations that are the most commonly accessed, as well as a range of where the quakes are most common. 
