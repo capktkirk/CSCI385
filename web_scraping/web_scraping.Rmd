@@ -1,0 +1,158 @@
+---
+title: "WebScraping Notebook"
+output: html_notebook
+author: "Kyle Kirk"
+---
+
+
+```{r}
+include <- function(library_name){
+  if( !(library_name %in% installed.packages()) )
+    install.packages(library_name) 
+  library(library_name, character.only=TRUE)
+}
+include("rvest")
+include("tidyr")
+```
+
+```{r}
+my_url <- "http://ems.csuchico.edu/APSS/schedule/spr2020/CSCI.shtml"
+spring20_html <- read_html(my_url)
+my_url <- "http://ems.csuchico.edu/APSS/schedule/spr2019/CSCI.shtml"
+spring19_html <- read_html(my_url)
+```
+
+```{r}
+spr_20 <- spring20_html %>% html_nodes("tr.classrow")
+spr_19 <- spring19_html %>% html_nodes("tr.classrow")
+```
+
+```{r}
+class_titles_20 <- spr_20 %>% 
+                    html_nodes("td.title") %>% 
+                    html_text()
+
+class_titles_19 <- spr_19 %>%
+                    html_nodes("td.title") %>%
+                    html_text()
+
+cat_20 <- spr_20 %>% 
+                    html_nodes("td.cat_num") %>% 
+                    html_text()
+
+cat_19 <- spr_19 %>%
+                    html_nodes("td.cat_num") %>%
+                    html_text()
+
+class_times_20 <- spr_20 %>%
+                    html_nodes("td.time") %>%
+                    html_text()
+class_times_19 <- spr_19 %>%
+                    html_nodes("td.time") %>%
+                    html_text()
+teacher_20 <- spr_20 %>%
+              html_nodes("td.Instructor") %>%
+              html_text()
+
+teacher_19 <- spr_19 %>%
+              html_nodes("td.Instructor") %>%
+              html_text()
+
+days_20 <-  spr_20 %>% 
+            html_nodes("td.days") %>%
+            html_text()
+
+days_19 <-  spr_19 %>% 
+            html_nodes("td.days") %>%
+            html_text()
+
+loc_20 <- spr_20 %>% 
+                    html_nodes("td.loc") %>% 
+                    html_text()
+
+loc_19 <- spr_19 %>%
+                    html_nodes("td.loc") %>%
+                    html_text()
+
+enrolled_20 <- spr_20 %>% 
+                    html_nodes("td.enrtot") %>% 
+                    html_text()
+
+enrolled_19 <- spr_19 %>%
+                    html_nodes("td.enrtot") %>%
+                    html_text()
+
+class_20_tibble <- tibble(cat_num = cat_20, title = class_titles_20, teacher = teacher_20, times=class_times_20, days=days_20, loc=loc_20)
+class_19_tibble <- tibble(cat_num = cat_19, title = class_titles_19, teacher = teacher_19, times=class_times_19, days=days_19, loc=loc_19)
+```
+
+```{r}
+class_20_tibble <- separate(class_20_tibble, times, c("begin", "end"), " ")
+class_19_tibble <- separate(class_19_tibble, times, c("begin", "end"), " ")
+class_20_tibble <- separate(class_20_tibble, loc, c("building", "room"), " ")
+class_19_tibble <- separate(class_19_tibble, loc, c("building", "room"), " ")
+
+```
+
+```{r}
+read_class_schedule <- function(arg1){
+  temp_url <- arg1
+  temp_html <- read_html(temp_url)
+  temp_sched <- temp_html %>% html_nodes("tr.classrow")
+
+
+  t_titles <- temp_sched %>%
+                    html_nodes("td.title") %>%
+                    html_text()
+
+  t_cat <- temp_sched %>%
+                    html_nodes("td.cat_num") %>%
+                    html_text()
+  t_class_times <- temp_sched %>%
+                    html_nodes("td.time") %>%
+                    html_text()
+
+  t_teacher <- temp_sched %>%
+                    html_nodes("td.Instructor") %>%
+                    html_text()
+
+  t_days <-  temp_sched %>% 
+                  html_nodes("td.days") %>%
+                  html_text()
+
+  t_loc <- temp_sched %>%
+                  html_nodes("td.loc") %>%
+                  html_text()
+
+  t_enrolled <- temp_sched %>%
+                  html_nodes("td.enrtot") %>%
+                  html_text()
+  temp_tibble <- tibble(titles=t_titles, category=t_cat, class_times=t_class_times, teacher=t_teacher, days=t_days, loc=t_loc, enrolled=t_enrolled)
+  
+  temp_tibble <- separate(temp_tibble, class_times, c("begin", "end"), " ")
+  temp_tibble <- separate(temp_tibble, loc, c("building", "room"), " ")
+  return(temp_tibble)
+}
+```
+
+```{r}
+url_grab <- function(arg1){
+  temp_html <- read_html(arg1)
+  links <- temp_html %>% html_nodes("tr.indexletterdd")
+  for (val in links){
+    new_list$i <-read_class_schedule(val)
+  }
+  return (new_list)
+}
+
+```
+
+```{r}
+my_url <- "http://ems.csuchico.edu/APSS/schedule/spr2019/MATH.shtml"
+#read_class_schedule(my_url)
+
+math_19 <- read_class_schedule(my_url)
+cins_20 <- read_class_schedule("http://ems.csuchico.edu/APSS/schedule/spr2020/CINS.shtml")
+#test_list <- url_grab("http://ems.csuchico.edu/APSS/schedule/spr2020/index.shtml")
+```
+
