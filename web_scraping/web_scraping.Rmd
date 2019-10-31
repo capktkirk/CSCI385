@@ -149,7 +149,7 @@ url_grab <- function(arg1){
 
 ```{r}
 my_url <- "http://ems.csuchico.edu/APSS/schedule/spr2019/MATH.shtml"
-#read_class_schedule(my_url)
+#read_class_schedule(my_url)d
 
 math_19 <- read_class_schedule(my_url)
 cins_20 <- read_class_schedule("http://ems.csuchico.edu/APSS/schedule/spr2020/CINS.shtml")
